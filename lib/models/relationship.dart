@@ -1,4 +1,6 @@
 class Relationship {
+
+  final int id;
   final int relationId;
   final int amount;
   final String date;
@@ -13,5 +15,5 @@ class Relationship {
     };
   }
 
-  Relationship({this.relationId, this.amount, this.date, this.comment});
+  Relationship({this.id, this.relationId, this.amount, this.date, this.comment});
 }

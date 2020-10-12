@@ -41,7 +41,7 @@ class AddRelationState extends State<AddRelation> {
                       Navigator.pop(context, 1);
                     }
                   },
-                  child: Text('Submit'),
+                  child: Text('Add'),
                 )
               ]),
             )),

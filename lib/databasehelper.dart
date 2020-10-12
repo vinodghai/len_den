@@ -43,6 +43,35 @@ class DatabaseHelper {
         conflictAlgorithm: ConflictAlgorithm.abort);
   }
 
+  Future<void> updateRelationship(int relationshipId, Relationship relationship) async {
+    await _db.update('relationships', relationship.toMap(),
+        where: 'id = ?',
+        whereArgs: [relationshipId],
+        conflictAlgorithm: ConflictAlgorithm.abort);
+  }
+
+  Future<void> deleteRelationship(int relationshipId) async {
+    await _db
+        .delete('relationships', where: 'id = ?', whereArgs: [relationshipId]);
+  }
+
+  Future<Relationship> getRelationship(int relationshipId) async {
+    String whereString = 'id = ?';
+
+    List<Map<String, dynamic>> maps = await _db.query('relationships',
+        where: whereString, whereArgs: [relationshipId], limit: 1);
+
+    List<Relationship> relationships = List.generate(maps.length, (i) {
+      return Relationship(
+          id: maps[i]['id'],
+          amount: maps[i]['amount'],
+          relationId: maps[i]['relation_id'],
+          comment: maps[i]['comment'],
+          date: maps[i]['date']);
+    });
+    return relationships[0];
+  }
+
   Future<List<Relation>> getRelationList() async {
     List<Map<String, dynamic>> maps = await _db.query('relations');
 
@@ -59,6 +88,7 @@ class DatabaseHelper {
 
     List<Relationship> relationships = List.generate(maps.length, (i) {
       return Relationship(
+          id: maps[i]['id'],
           amount: maps[i]['amount'],
           relationId: maps[i]['relation_id'],
           comment: maps[i]['comment'],
